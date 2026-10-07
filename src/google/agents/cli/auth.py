@@ -415,8 +415,8 @@ def _check_valid_adc():
             capture_output=True,
         )
         return True
-    except ToolNotFoundError:
-        # If gcloud is not installed, fallback to the slower google.auth.default() means of checking
+    except (ToolNotFoundError, ToolNotExecutableError):
+        # If gcloud is not installed or not executable, fallback to the slower google.auth.default() means of checking
         try:
             import google.auth
             from google.auth.transport.requests import Request as GoogleAuthRequest

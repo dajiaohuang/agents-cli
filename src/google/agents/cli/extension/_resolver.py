@@ -101,7 +101,7 @@ def _git_ignored(root: Path) -> frozenset[str]:
             "--directory",
             "-z",
         )
-    except OSError as e:
+    except Exception as e:
         logging.debug("Could not ask git what %s ignores: %s", root, e)
         return frozenset()
     if result.returncode != 0:
@@ -237,10 +237,10 @@ def _clone_url(ref: ExtensionRef) -> str:
 
 
 def _git(*args: str) -> subprocess.CompletedProcess:
-    """Run a git command with output captured (no shell, no PATH resolution)."""
+    """Run a git command with output captured."""
     return run_resolved(
         ["git", *args],
-        resolve_executable=False,
+        resolve_executable=True,
         capture_output=True,
         text=True,
     )
